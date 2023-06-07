@@ -2,7 +2,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import control
-main(void) {
+
 num = [100]
 den = [1, 5, 6]  # (s+2)(s+3) = s^2 + 5s + 6
 G = control.TransferFunction(num, den)
@@ -39,4 +39,3 @@ plt.title('Phase Response')
 plt.grid(True)
 
 plt.show()
-}
