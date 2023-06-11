@@ -12,7 +12,7 @@ def main():
     G = control.TransferFunction(num, den)
 
     # 폐루프 전달함수 계산
-    Gc = G * 1
+    Gc = G
 
     # 시간 범위 설정
     t = np.linspace(0, 10, 1000)
@@ -21,7 +21,7 @@ def main():
     u = np.ones_like(t)
 
     # 시스템 응답 계산
-    t, y = control.step_response(Gc, T=t, input=u)
+    t, y, _ = control.forced_response(Gc, T=t, U=u)
 
     # 응답 곡선 그리기
     fig1, ax1 = plt.subplots()
