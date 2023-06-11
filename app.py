@@ -42,6 +42,10 @@ def main():
     ax3.set(xlabel='Frequency (rad/s)', ylabel='Phase (degrees)', title='Phase Response')
     ax3.grid(True)
 
+    # 전달함수의 분자 및 분모 계수 출력
+    st.write("전달함수 분자 계수:", num)
+    st.write("전달함수 분모 계수:", den)
+
     # 그래프를 스트림릿에 표시
     st.pyplot(fig1)
     st.pyplot(fig2)
