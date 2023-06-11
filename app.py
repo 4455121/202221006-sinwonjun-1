@@ -21,7 +21,7 @@ def main():
     u = np.ones(t.shape)
 
     # 시스템 응답 계산
-    _, y, _ = control.forced_response(Gc, T=t, U=u)
+    t, y = control.step_response(Gc, T=t, X0=0, input=u)
 
     # 응답 곡선 그리기
     fig1, ax1 = plt.subplots()
