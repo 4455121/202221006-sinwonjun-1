@@ -20,14 +20,12 @@ def main():
     # 단위 계단 입력 생성
     u = np.ones_like(t)
 
-    # 시스템 응답 계산
-    _, y, _ = control.forced_response(Gc, T=t, U=u.reshape(-1, 1))
-
-    # 응답 곡선 그리기
+    # 그래프를 스트림릿에 표시
     fig1, ax1 = plt.subplots()
-    ax1.plot(t, y)
-    ax1.set(xlabel='Time', ylabel='Output', title='Step Response')
+    ax1.plot(t, u)
+    ax1.set(xlabel='Time', ylabel='Input', title='Step Input')
     ax1.grid(True)
+    st.pyplot(fig1)
 
     # 주파수 응답 계산
     omega, mag, phase = control.bode(Gc)
@@ -41,9 +39,6 @@ def main():
     ax3.semilogx(omega, phase)
     ax3.set(xlabel='Frequency (rad/s)', ylabel='Phase (degrees)', title='Phase Response')
     ax3.grid(True)
-
-    # 그래프를 스트림릿에 표시
-    st.pyplot(fig1)
     st.pyplot(fig2)
 
 if __name__ == '__main__':
