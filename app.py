@@ -9,7 +9,7 @@ def main():
     # 전달함수 정의
     num = [100]
     den = [1, 5, 6]  # (s+2)(s+3) = s^2 + 5s + 6
-    G = control.TransferFunction(num, den)
+    G = signal.TransferFunction(num, den)
 
     # 폐루프 전달함수 계산
     Gc = G * 1
