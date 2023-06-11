@@ -18,10 +18,10 @@ def main():
     t = np.linspace(0, 10, 1000)
 
     # 단위 계단 입력 생성
-    u = np.ones(t.shape)
+    u = np.ones_like(t)
 
     # 시스템 응답 계산
-    _, y = control.step_response(Gc, T=t, input=u)
+    t, y, _ = control.forced_response(Gc, T=t, U=u.reshape(-1, 1))
 
     # 응답 곡선 그리기
     fig1, ax1 = plt.subplots()
