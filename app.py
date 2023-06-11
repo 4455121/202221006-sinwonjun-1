@@ -21,8 +21,7 @@ def main():
     u = np.ones_like(t)
 
     # 시스템 응답 계산
-   _, y, _ = control.forced_response(Gc, T=t, U=u)
-
+    _, y, _ = control.forced_response(Gc, T=t, U=u)
 
     # 응답 곡선 그리기
     fig1, ax1 = plt.subplots()
@@ -42,10 +41,6 @@ def main():
     ax3.semilogx(omega, phase)
     ax3.set(xlabel='Frequency (rad/s)', ylabel='Phase (degrees)', title='Phase Response')
     ax3.grid(True)
-
-    # 전달함수의 분자 및 분모 계수 출력
-    st.write("전달함수 분자 계수:", num)
-    st.write("전달함수 분모 계수:", den)
 
     # 그래프를 스트림릿에 표시
     st.pyplot(fig1)
