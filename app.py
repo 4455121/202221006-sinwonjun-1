@@ -1,45 +1,46 @@
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
-import control
+from scipy import signal
 
 def main():
     st.title('전달함수 분석')
-
-    # 전달함수 정의
+    # 전달함수 계수
     num = [100]
-    den = [1, 5, 6]  # (s+2)(s+3) = s^2 + 5s + 6
-    G = signal.TransferFunction(num, den)
+    den = [1, 5, 6]
 
     # 폐루프 전달함수 계산
-    Gc = G * 1
+    G = signal.TransferFunction(num, den)
 
-    # 시간 범위 설정
-    t = np.linspace(0, 10, 1000)
-
-    # 단위 계단 입력 생성
-    u = np.ones_like(t)
-
-    # 그래프를 스트림릿에 표시
-    fig1, ax1 = plt.subplots()
-    ax1.plot(t, u)
-    ax1.set(xlabel='Time', ylabel='Input', title='Step Input')
-    ax1.grid(True)
-    st.pyplot(fig1)
+    # unit step 입력에 대한 응답곡선 계산
+    t, y = signal.step(G)
 
     # 주파수 응답 계산
-    omega, mag, phase = control.bode(Gc)
+    w, mag, phase = signal.bode(G)
 
-    # 주파수 응답 그래프 그리기
-    fig2, (ax2, ax3) = plt.subplots(2, 1)
-    ax2.semilogx(omega, mag)
-    ax2.set(xlabel='Frequency (rad/s)', ylabel='Magnitude (dB)', title='Magnitude Response')
-    ax2.grid(True)
+    # 그래프 그리기
+    fig, axs = plt.subplots(3, 1, figsize=(8, 10))
+    fig.suptitle('System Response')
 
-    ax3.semilogx(omega, phase)
-    ax3.set(xlabel='Frequency (rad/s)', ylabel='Phase (degrees)', title='Phase Response')
-    ax3.grid(True)
-    st.pyplot(fig2)
+    # 응답곡선 그래프
+    axs[0].plot(t, y)
+    axs[0].set_xlabel('Time')
+    axs[0].set_ylabel('Output')
+    axs[0].set_title('Step Response')
 
-if __name__ == '__main__':
+    # 주파수 응답 그래프
+    axs[1].semilogx(w, mag)
+    axs[1].set_xlabel('Frequency')
+    axs[1].set_ylabel('Magnitude')
+    axs[1].set_title('Bode Plot (Magnitude)')
+
+    axs[2].semilogx(w, phase)
+    axs[2].set_xlabel('Frequency')
+    axs[2].set_ylabel('Phase')
+    axs[2].set_title('Bode Plot (Phase)')
+
+    # 그래프 출력
+    st.pyplot(fig)
+
+if __name__ == "__main__":
     main()
