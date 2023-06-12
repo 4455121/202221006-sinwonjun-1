@@ -1,4 +1,6 @@
-numpy
-matplotlib
-control
 streamlit
+control
+pandas
+numpy
+scipy
+matplotlib
