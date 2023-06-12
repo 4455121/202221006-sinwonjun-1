@@ -1,6 +1,4 @@
-streamlit
-control
-pandas
 numpy
-scipy
 matplotlib
+control
+streamlit
