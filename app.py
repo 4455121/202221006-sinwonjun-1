@@ -1,73 +1,46 @@
 import streamlit as st
-import control
 import numpy as np
-from scipy.signal import lti, step
 import matplotlib.pyplot as plt
 from scipy import signal
 
-st.title("조상희")
-st.header("202221016")
+def main():
+    st.title('전달함수 분석')
+    # 전달함수 계수
+    num = [100]
+    den = [1, 5, 6]
 
-#단위계단응답
-G1 = control.TransferFunction([100],[1,5,6])
-G2 = control.feedback(G1)
-st.write(G2)
+    # 폐루프 전달함수 계산
+    G = signal.TransferFunction(num, den)
 
+    # unit step 입력에 대한 응답곡선 계산
+    t, y = signal.step(G)
 
-num = [100]
-den = [1,5,106]
-system = signal.TransferFunction(num,den)
+    # 주파수 응답 계산
+    w, mag, phase = signal.bode(G)
 
+    # 그래프 그리기
+    fig, axs = plt.subplots(3, 1, figsize=(8, 10))
+    fig.suptitle('System Response')
 
-t,y = step(system)
-fig = plt.figure()
-plt.plot(t,y)
-plt.title('step response')
-plt.xlabel('Time (s)')
-plt.ylabel('Amplitude')
-plt.grid(True)
-plt.show()
-st.pyplot(fig)
+    # 응답곡선 그래프
+    axs[0].plot(t, y)
+    axs[0].set_xlabel('Time')
+    axs[0].set_ylabel('Output')
+    axs[0].set_title('Step Response')
 
-#주파수 응답
+    # 주파수 응답 그래프
+    axs[1].semilogx(w, mag)
+    axs[1].set_xlabel('Frequency')
+    axs[1].set_ylabel('Magnitude')
+    axs[1].set_title('Bode Plot (Magnitude)')
 
-#Define the systems
-G0 = signal.lti([100],[1])
-G1 = signal.lti([1],[1,2])
-G2 = signal.lti([1],[1,3])
-G3 = signal.lti([100],[1,5,6])
+    axs[2].semilogx(w, phase)
+    axs[2].set_xlabel('Frequency')
+    axs[2].set_ylabel('Phase')
+    axs[2].set_title('Bode Plot (Phase)')
 
-#Define the frequency range
-frequencies = np.logspace(-2,2,500)#frequencies in range from 0.01 to 100
+    # 그래프 출력
+    st.pyplot(fig)
 
-#Calculate frequency responses
-systems = [G0,G1,G2,G3]
-labels = ['Proportional Element', 'Integral Element', 'First-Order Lag Element', 'Overall System']
-colors = ['r','g','b','m']
-
-
-plt.figure(figsize=(12,8))
-
-#Bode magnitude plot
-plt.subplot(2,1,1)
-fig2 = plt.figure()
-for sys,label,color in zip(systems,labels, colors):
-  w,mag,_ = sys.bode(frequencies)
-  plt.semilogx(w,mag,color=color, label=label)
-plt.title('Bode plot')
-plt.ylabel('Magnitude [dB]')
-plt.legend()
-st.pyplot(fig2)
-
-
-
-#Bode phase plot
-plt.subplot(2,1,2)
-fig3 = plt.figure()
-for sys,_,color in zip(systems,labels, colors):
-  w,_,phase = sys.bode(frequencies)
-  plt.semilogx(w,phase,color=color)
-plt.ylabel('Phase [degrees]')
-plt.xlabel('Frequency [Hz]')
-plt.show()
-st.pyplot(fig3)
+if __name__ == "__main__":
+    main()
