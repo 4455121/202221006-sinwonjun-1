@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from scipy import signal
 
 def main():
+    st.title('202221006 신원준')
     st.title('전달함수 분석')
     # 전달함수 계수
     num = [100]
